@@ -6,9 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasRoles;
     use HasFactory, Notifiable;
 
     public function posts()
@@ -29,7 +31,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'google_id'
+        'google_id',
+        'username',
+        'profile_image',
     ];
 
     /**
@@ -53,5 +57,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            // Asigna el rol 'Blogger' por defecto al crear un usuario
+            $user->assignRole('Blogger');
+        });
     }
 }

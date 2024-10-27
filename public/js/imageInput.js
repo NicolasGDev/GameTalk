@@ -1,53 +1,25 @@
+// Seleccionamos los elementos del DOM
 const uploadInput = document.getElementById("upload");
 const filenameLabel = document.getElementById("filename");
 const imagePreview = document.getElementById("image-preview");
 
-// Check if the event listener has been added before
-let isEventListenerAdded = false;
-
+// Añadir event listener al input file para mostrar el nombre del archivo seleccionado
 uploadInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
 
     if (file) {
-        filenameLabel.textContent = file.name;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            imagePreview.innerHTML = `<img src="${e.target.result}" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-            imagePreview.classList.remove(
-                "border-dashed",
-                "border-2",
-                "border-gray-400"
-            );
-
-            // Add event listener for image preview only once
-            if (!isEventListenerAdded) {
-                imagePreview.addEventListener("click", () => {
-                    uploadInput.click();
-                });
-
-                isEventListenerAdded = true;
-            }
-        };
-        reader.readAsDataURL(file);
+        // Mostrar el nombre del archivo seleccionado
+        filenameLabel.textContent = `Archivo seleccionado: ${file.name}`;
     } else {
-        filenameLabel.textContent = "";
-        imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
-        imagePreview.classList.add(
-            "border-dashed",
-            "border-2",
-            "border-gray-400"
-        );
-
-        // Remove the event listener when there's no image
-        imagePreview.removeEventListener("click", () => {
-            uploadInput.click();
-        });
-
-        isEventListenerAdded = false;
+        // Restaurar el texto si no hay ningún archivo seleccionado
+        filenameLabel.textContent = "No se ha seleccionado ningún archivo";
     }
 });
 
-uploadInput.addEventListener("click", (event) => {
-    event.stopPropagation();
+// Añadir un evento de click al contenedor, solo si no es directamente el input
+imagePreview.addEventListener("click", (event) => {
+    // Verificamos si el clic no ocurrió directamente sobre el input
+    if (event.target !== uploadInput) {
+        uploadInput.click();
+    }
 });

@@ -3,7 +3,7 @@
     <div>
         <h2 class="text-white text-2xl font-semibold mb-6">Registrar categoria</h2>
     </div>
-    <form method="POST" action="{{ route('category.store') }}">
+    <form method="POST" action="{{ route('categories.manage.store') }}">
         @csrf
 
         <!-- Name -->
@@ -14,11 +14,12 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
         <div class="flex justify-center gap-5 items-center mt-4">
-            <x-primary-button class="text-md font-bold text-black ">
-                {{ __('Registrar') }}
-            </x-primary-button>
-
-            <x-secondary-button>
+            @can('categories.manage.store')
+                <x-primary-button class="text-md font-bold text-black ">
+                    {{ __('Registrar') }}
+                </x-primary-button>
+            @endcan
+            <x-secondary-button back>
                 {{ __('Cancelar') }}
             </x-secondary-button>
 

@@ -6,28 +6,31 @@
     <div>
         <h2 class="text-white text-2xl font-semibold mb-6">Publicar un post</h2>
     </div>
-    <form method="POST" action="{{ route('post.store') }}">
+    <form method="POST" enctype="multipart/form-data" action="{{ route('posts.manage.store') }}">
         @csrf
         <div>
             <x-input-label for="title" :value="__('Titulo')" />
             <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" autofocus
                 autocomplete="title" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
 
         <div class="mt-6">
             <x-input-label for="category" :value="__('Categoria')" />
-            <select name="category" id="category" class="bg-gray-700 mt-2 text-white py-2 px-2 rounded-md">
+            <select name="category" id="category" class="bg-gray-700 mt-2 w-full text-white py-2 px-2 rounded-md">
                 <option value="">Seleccione una categoria</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
+            <x-input-error :messages="$errors->get('category')" class="mt-2" />
         </div>
 
         <div class="mt-6">
-            <x-input-label for="name" :value="__('Cuerpo del post')" />
-            <textarea name="body" id="mytextarea"></textarea>
+            <x-input-label for="body" :value="__('Cuerpo del post')" />
+            <textarea name="body" id="mytextarea"
+                class="shadow appearance-none border-none bg-gray-700 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline">{{ old('body') }}</textarea>
+            <x-input-error :messages="$errors->get('body')" class="mt-2" />
         </div>
 
 
@@ -45,31 +48,14 @@
                 @endforeach
             </div>
         </div>
-        <section class="container w-full mx-auto items-center mt-6">
-            <x-input-label for="name" :value="__('Portada de la publicacion')" />
-            <div class="w-full mx-auto bg-gray-800 rounded-lg shadow-md overflow-hidden items-center">
-                <div class="px-4 py-6">
-                    <div id="image-preview"
-                        class="w-full p-6 mb-4  border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
-                        <input id="upload" type="file" class="hidden" name="image" accept="image/*" />
-                        <label for="upload" class="cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-8 h-8 text-main mx-auto mb-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                            </svg>
-                            <h5 class="mb-2 text-xl font-bold tracking-tight text-main">Subir imagen</h5>
-                            <p class="font-normal text-sm text-white md:px-6">El tamaño de la imagen seleccionada debe ser
-                                menor que <b class="text-main">2mb</b></p>
-                            <p class="font-normal text-sm text-white md:px-6">y el formato debe ser<b class="text-main">
-                                    PNG o JPG</b></p>
-                            <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
-                        </label>
-                    </div>
 
-                </div>
-            </div>
-        </section>
+        <div class="mt-6">
+            <x-input-label for="name" :value="__('Portada de la publicacion')" />
+            <input
+                class="block w-full text-sm  text-main border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                id="file_input" type="file" name="image">
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
 
 
         <div class="flex justify-center gap-5 items-center mt-4">
@@ -77,7 +63,7 @@
                 {{ __('Registrar') }}
             </x-primary-button>
 
-            <x-secondary-button>
+            <x-secondary-button back>
                 {{ __('Cancelar') }}
             </x-secondary-button>
         </div>

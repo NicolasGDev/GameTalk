@@ -3,7 +3,7 @@
     <div>
         <h2 class="text-white text-2xl font-semibold mb-6">Registrar etiqueta</h2>
     </div>
-    <form method="POST" action="{{ route('tag.store') }}">
+    <form method="POST" action="{{ route('tags.manage.store') }}">
         @csrf
 
         <!-- Name -->
@@ -18,7 +18,7 @@
                 {{ __('Registrar') }}
             </x-primary-button>
 
-            <x-secondary-button>
+            <x-secondary-button back>
                 {{ __('Cancelar') }}
             </x-secondary-button>
 

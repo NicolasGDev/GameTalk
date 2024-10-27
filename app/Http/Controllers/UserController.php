@@ -2,23 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
+
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:users.manage.index')->only('index');
+        $this->middleware('can:users.manage.create')->only('create');
+        $this->middleware('can:users.manage.store')->only('store');
+        $this->middleware('can:users.manage.edit')->only('edit');
+        $this->middleware('can:users.manage.update')->only('update');
+        $this->middleware('can:users.manage.destroy')->only('destroy');
+    }
 
 
     public function index()
     {
 
-        $users = User::select('id', 'name', 'email', 'state')
+        $users = User::select('id', 'name', 'username', 'email', 'state')
             ->where('state', 1)
             ->get();
         $loggedInUser = Auth::user();
@@ -27,66 +41,43 @@ class UserController extends Controller
 
     public function create()
     {
-
-        return view('pages.users.create');
+        $roles = Role::all();
+        return view('pages.users.create', compact('roles'));
     }
-    public function store(Request $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
+            'profile_image' => '/images/users_profile_pics/default.png',
             'password' => Hash::make($request->password),
+
         ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('user.index'));
+        $user->roles()->sync($request->role);
+        return redirect(route('users.manage.index'));
     }
 
     public function edit(string $id)
     {
+        $roles = Role::all();
         $user = User::findOrFail($id);
-        return view('pages.users.edit', compact('user'));
+        return view('pages.users.edit', compact('user', 'roles'));
     }
 
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        // Validar los datos
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-                // La validación unique debe ignorar el email del usuario actual
-            ],
-            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
-        ]);
 
-        // Actualizar los campos del usuario
         $user->name = $request->name;
         $user->email = $request->email;
-
+        $user->username = $request->username;
         // Si se proporciona una nueva contraseña, actualizarla
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-
-        // Guardar los cambios
         $user->save();
-
-        return redirect()->route('user.index')->with('status', 'Usuario actualizado exitosamente');
+        $user->roles()->sync($request->role);
+        return redirect()->route('users.manage.index')->with('status', 'Usuario actualizado exitosamente');
     }
 
     public function destroy(string $id)
@@ -94,17 +85,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->state = 0;
         $user->save();
-        return redirect(route('user.index'));
+        return redirect(route('users.manage.index'));
     }
     public function logout(Request $request): RedirectResponse
     {
-
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('welcome');
     }
 }

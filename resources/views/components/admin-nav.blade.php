@@ -41,19 +41,17 @@
             <button type="button" class="dropdown-toggle flex items-center">
                 <div class="flex-shrink-0 w-10 h-10 relative">
                     <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                        <img class="w-8 h-8 rounded-full"
-                            src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg"
+                        <img class="w-8 h-8 rounded-full" src="{{ asset(auth()->user()->profile_image) }}"
                             alt="" />
-                        <div
-                            class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping">
+                        <div class="top-0 left-7 absolute w-3 h-3 bg-lime-400   rounded-full animate-ping">
                         </div>
-                        <div class="top-0 left-7 absolute w-3 h-3 bg-lime-500 border-2 border-white rounded-full">
+                        <div class="top-0 left-7 absolute w-3 h-3 bg-lime-500   rounded-full">
                         </div>
                     </div>
                 </div>
                 <div class="p-2 md:block text-left">
                     <h2 class="text-sm font-semibold text-main">{{ Auth::user()->name }}</h2>
-                    <p class="text-xs text-gray-500">Administrator</p>
+                    <p class="text-xs text-gray-500"></p>
                 </div>
             </button>
             <ul
@@ -67,12 +65,15 @@
                         class="flex items-center text-[13px] py-1.5 px-4 text-gray-300 hover:text-black hover:bg-main">Settings</a>
                 </li>
                 <li>
-
-                    <a href="{{ route('user.logout') }}"
-                        class="block hover:text-black text-gray-300 px-4 py-2 text-sm  hover:bg-main">
-                        Cerrar sesión
-                    </a>
-
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('user.logout') }}"
+                            onclick="event.preventDefault();
+                                                this.closest('form').submit();"
+                            class="block hover:text-black text-gray-300 px-4 py-2 text-sm  hover:bg-main">
+                            Cerrar sesión
+                        </a>
+                    </form>
                 </li>
             </ul>
         </li>

@@ -4,37 +4,42 @@
         <img src="{{ asset('images/Logo2.png') }}" width="160px" alt="">
     </a>
     <ul class="mt-4">
-        <span class="text-gray-300 font-bold">ADMIN</span>
-        <li class="mb-1 group ">
-            <a href="{{ route('dashboard') }}"
-                class="flex font-semibold items-center py-2 px-4 gap-4  text-white @if (url()->current() == 'http://prueba.com/dashboard') bg-main @endif hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-home-2">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                    <path d="M10 12h4v4h-4z" />
-                </svg>
-                <span class="text-sm">Dashboard</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a href="{{ route('user.index') }}"
-                class="flex font-semibold items-center py-2 px-4 gap-4 text-white hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="icon justify-end icon-tabler icons-tabler-outline icon-tabler-users">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                </svg>
-                <span class="text-sm">Users</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
+        @can('users.manage.index')
+            <span class="text-gray-300 font-bold">ADMIN</span>
+            <li class="mb-1 group ">
+                <a href="{{ route('dashboard') }}"
+                    class="flex font-semibold items-center py-2 px-4 gap-4 {{ request()->routeIs('dashboard') ? 'bg-main text-black' : 'text-white' }}    hover:bg-main hover:text-black rounded-md ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-home-2">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                        <path d="M10 12h4v4h-4z" />
+                    </svg>
+                    <span class="text-sm">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="mb-1 group">
+                <a href="{{ route('users.manage.index') }}"
+                    class="flex font-semibold items-center py-2 px-4 gap-4 rounded-md
+                    {{ request()->routeIs('users.manage.index') ? 'bg-main text-black' : 'text-white' }}
+                    hover:bg-main hover:text-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon justify-end icon-tabler icons-tabler-outline icon-tabler-users">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                    </svg>
+                    <span class="text-sm">Users</span>
+                </a>
+            </li>
+
+            {{-- <li class="mb-1 group">
             <a href=""
                 class="flex font-semibold items-center py-2 px-4 gap-4 text-white hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -64,19 +69,27 @@
                         class="text-white text-sm flex items-center hover:text-main before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
 
-        <li class="mb-1 group">
-            <a href=""
-                class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class='bx bx-list-ul mr-3 text-lg'></i>
-                <span class="text-sm">Activities</span>
-            </a>
-        </li>
+            <li class="mb-1 group">
+                <a href="{{ route('users.manage.index') }}"
+                    class="flex font-semibold items-center {{ request()->routeIs('users.manage.index') ? 'bg-main text-black' : 'text-white' }} py-2 px-4 gap-4  hover:bg-main hover:text-black rounded-md ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-key">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z" />
+                        <path d="M15 9h.01" />
+                    </svg>
+                    <span class="text-sm">Roles y permisos</span>
+                </a>
+            </li>
+        @endcan
         <span class="text-white font-bold">BLOG</span>
         <li class="mb-1 group text-white">
-            <a href="{{ route('post.index') }}"
-                class="flex font-semibold items-center py-2 px-4 gap-4 text-white  hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+            <a href="{{ route('posts.manage.index') }}"
+                class="flex font-semibold items-center py-2 px-4 gap-4   hover:bg-main hover:text-black rounded-md {{ request()->routeIs('posts.manege.index') ? 'bg-main text-black' : 'text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-pencil-plus">
@@ -91,11 +104,11 @@
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="{{ route('category.index') }}"
-                class="flex font-semibold items-center py-2 px-4 gap-4 text-white hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
+            <a href="{{ route('categories.manage.index') }}"
+                class="flex font-semibold items-center {{ request()->routeIs('categories.manege.index') ? 'bg-main text-black' : 'text-white' }} py-2 px-4 gap-4  hover:bg-main hover:text-black rounded-md ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
                 </svg>
@@ -103,11 +116,11 @@
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="{{ route('tag.index') }}"
-                class="flex font-semibold items-center py-2 px-4 gap-4 text-white hover:bg-main hover:text-black rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tags">
+            <a href="{{ route('tags.manage.index') }}"
+                class="flex font-semibold items-center {{ request()->routeIs('tags.manege.index') ? 'bg-main text-black' : 'text-white' }} py-2 px-4 gap-4  hover:bg-main hover:text-black rounded-md ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-tags">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path
                         d="M3 8v4.172a2 2 0 0 0 .586 1.414l5.71 5.71a2.41 2.41 0 0 0 3.408 0l3.592 -3.592a2.41 2.41 0 0 0 0 -3.408l-5.71 -5.71a2 2 0 0 0 -1.414 -.586h-4.172a2 2 0 0 0 -2 2z" />
@@ -117,26 +130,20 @@
                 <span class="text-sm">Etiquetas</span>
             </a>
         </li>
-        <span class="text-gray-400 font-bold">PERSONAL</span>
         <li class="mb-1 group">
-            <a href=""
-                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class='bx bx-bell mr-3 text-lg'></i>
-                <span class="text-sm">Notifications</span>
-                <span
-                    class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a href=""
-                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class='bx bx-envelope mr-3 text-lg'></i>
-                <span class="text-sm">Messages</span>
-                <span
-                    class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2
-                    New</span>
+            <a href="{{ route('comment.index') }}"
+                class="flex font-semibold items-center {{ request()->routeIs('tags.manege.index') ? 'bg-main text-black' : 'text-white' }} py-2 px-4 gap-4  hover:bg-main hover:text-black rounded-md ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M8 9h8" />
+                    <path d="M8 13h6" />
+                    <path
+                        d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+                </svg>
+                <span class="text-sm">Comentarios</span>
             </a>
         </li>
     </ul>
 </div>
-<div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>

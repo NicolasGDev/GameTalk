@@ -21,7 +21,8 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'id');
+        // Relación corregida: usar 'post_id' como clave foránea
+        return $this->hasMany(Comment::class, 'post_id');
     }
 
     public function tags()

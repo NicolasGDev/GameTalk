@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('content')
     <div>
-        <h2 class="text-white text-2xl font-semibold mb-6">Editar categoria</h2>
+        <h2 class="text-white text-2xl font-semibold mb-6">Editar etiqueta</h2>
     </div>
-    <form method="POST" action="{{ route('tag.update', $tag->id) }}">
+    <form method="POST" action="{{ route('tags.manage.update', $tag->id) }}">
         @csrf
         @method('PUT')
         <!-- Name -->
@@ -20,7 +20,7 @@
                 {{ __('Registrar') }}
             </x-primary-button>
 
-            <x-secondary-button>
+            <x-secondary-button back>
                 {{ __('Cancelar') }}
             </x-secondary-button>
 

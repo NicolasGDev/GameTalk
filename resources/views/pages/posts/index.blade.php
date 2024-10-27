@@ -3,17 +3,7 @@
     <div class="flex flex-col gap-6">
         <h1 class="text-3xl text-white font-bold ">Publicaciones</h1>
         <p class="text-gray-200 text-xl">Listado de las Publicaciones realizadas</p>
-        <a href="{{ route('post.create') }}"
-            class="px-8 py-3 flex gap-4 max-w-40 text-main cursor-pointer items-center hover:bg-main hover:text-black rounded-md font-semibold border border-main">
-            Añadir
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-            </svg>
-        </a>
+        <x-create-button :route="route('posts.manage.create')"></x-create-button>
     </div>
 
     <div class="relative mt-20 overflow-x-auto border border-gray-500">
@@ -34,7 +24,7 @@
                         Fecha de creacions
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Ultima edicion
+                        Etiquetas
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Acciones
@@ -44,9 +34,10 @@
             @foreach ($posts as $post)
                 <tbody class="bg-gray-900 text-gray-200">
                     <tr class="border-b  dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-normal break-words max-w-xs">
                             {{ $post->title }}
                         </th>
+
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
                             {{ $post->categories->name }}
                         </th>
@@ -57,28 +48,44 @@
                             {{ $post->created_at }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-                            {{ $post->updated_at }}
+                            @if ($post->tags->isNotEmpty())
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach ($post->tags as $tag)
+                                        <div class="flex flex-col">
+                                            #{{ $tag->name }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-gray-400">Sin tags</span>
+                            @endif
                         </th>
 
 
-                        <td class="px-6 py-4 flex gap-2">
-                            <a href="{{ route('category.edit', $post->id) }}" data-id="{{ $post->id }}"
-                                class="px-6   py-2 bg-blue-600 flex items-center gap-2  hover:bg-blue-500 font-semibold rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-pencil">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-                                    <path d="M13.5 6.5l4 4" />
-                                </svg>Editar</a>
-                            <form method="POST" action="{{ route('post.destroy', $post->id) }}">
-                                @method('DELETE')
-                                @csrf
-                                <x-delete-button />
-                            </form>
-
-                        </td>
+                        <th class="px-6 py-4 flex flex-col gap-2">
+                            @can('posts.manage.edit')
+                                <a href="{{ route('posts.manage.edit', $post->id) }}" data-id="{{ $post->id }}"
+                                    class="px-6   py-2 bg-blue-600 flex max-w-32 items-center gap-2  hover:bg-blue-500 font-semibold rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-pencil">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+                                        <path d="M13.5 6.5l4 4" />
+                                    </svg>Editar
+                                </a>
+                            @endcan
+                            @can('posts.manage.destroy')
+                                <form method="POST" class="delete-form"
+                                    action="{{ route('posts.manage.destroy', $post->id) }}">
+                                    @method('DELETE')
+                                    @csrf
+                                    <input type="hidden" name="post" value="{{ $post->id }}">
+                                    <x-delete-button />
+                                </form>
+                            @endcan
+                        </th>
                     </tr>
 
                 </tbody>
