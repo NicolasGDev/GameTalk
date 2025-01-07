@@ -78,6 +78,6 @@
             </ul>
         </li>
     </ul>
-    <script src="{{ asset('js/adminNav.js') }}"></script>
+    <script></script>
 
 </div>

@@ -14,8 +14,11 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 
 
-
+Route::put('user/selfupdate', [UserController::class, 'selfUserUpdate'])->name('user.selfupdate');
 Route::get('/', [PageController::class, 'showHome'])->name('home');
+Route::get('/News', [PageController::class, 'showNewsPage'])->name('news');
+Route::get('/Reviews', [PageController::class, 'showReviewsPage'])->name('reviews');
+Route::get('/Forums', [PageController::class, 'showForumsPage'])->name('forums');
 Route::get('/posts/{id}', [PageController::class, 'showPost'])->name('page.show');
 Route::post('/comment/store', [CommentController::class, 'storeComment'])->name('comment.store');
 Route::put('/comment/{id}', [CommentController::class, 'reportComment'])->name('comment.report');

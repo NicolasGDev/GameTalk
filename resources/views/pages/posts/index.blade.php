@@ -1,12 +1,18 @@
 @extends('layouts.admin')
 @section('content')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <div class="flex flex-col gap-6">
         <h1 class="text-3xl text-white font-bold ">Publicaciones</h1>
         <p class="text-gray-200 text-xl">Listado de las Publicaciones realizadas</p>
-        <x-create-button :route="route('posts.manage.create')"></x-create-button>
+        <div class="flex gap-4 items-center">
+            <x-create-button :route="route('posts.manage.create')"></x-create-button>
+
+        </div>
     </div>
 
-    <div class="relative mt-20 overflow-x-auto border border-gray-500">
+    <div class="relative overflow-x-auto border border-gray-500">
 
         <table class="w-full text-sm text-left rtl:text-right  text-gray-500 dark:text-gray-400">
             <thead class="text-xs  uppercase bg-gray-900 text-white">
@@ -89,7 +95,6 @@
                     </tr>
 
                 </tbody>
-                {!! $post->body !!}
             @endforeach
         </table>
     </div>

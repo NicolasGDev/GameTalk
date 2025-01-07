@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -24,6 +25,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $user = User::where('email', $request->email)->first();
+        if (!$user || $user->state == 0) {
+            return back()->withErrors([
+                'email' => 'Tu cuenta está desactivada.',
+            ]);
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();

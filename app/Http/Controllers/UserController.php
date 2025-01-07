@@ -80,6 +80,25 @@ class UserController extends Controller
         return redirect()->route('users.manage.index')->with('status', 'Usuario actualizado exitosamente');
     }
 
+    public function selfUserUpdate(Request $request)
+    {
+
+        $id = Auth::user()->id; // Asegúrate de que sea una instancia del modelo
+        $user = User::findOrFail($id);
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $url = 'images/users_profile_pics/';
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $upload = $request->file('image')->move($url, $fileName);
+            $user->profile_image = $url . $fileName;
+        }
+        $user->username = $request->username;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Información guardada correctamente.');
+    }
+
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);

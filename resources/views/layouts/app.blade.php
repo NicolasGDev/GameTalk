@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>GameTalk novedades gaming</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -20,35 +20,21 @@
 
 </style>
 
-<body class=" flex flex-col  bg-cover bg-center   bg-no-repeat">
+<body id="bg" class="flex z-40 flex-col  bg-cover bg-center   bg-no-repeat">
 
     <!--Navbar-->
     <x-nav-bar />
 
-    <main class="pt-20 bg-gray-100">
+    <main class=" pt-20 bg-gray-900 relative">
         @yield('content')
+        <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-70 z-40"></div>
+        <x-config-modal />
     </main>
-
+    <!--Footer-->
     <x-footer />
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.querySelectorAll('.profileDropdown').forEach((dropdown) => {
-            const menu = dropdown.nextElementSibling;
-
-            dropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-                menu.classList.toggle('hidden');
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!dropdown.contains(e.target)) {
-                    menu.classList.add('hidden');
-                }
-            });
-        });
-    </script>
-
+    <script src="{{ asset('js/configModal.js') }}"></script>
+    <script src="{{ asset('js/navbarDropdown.js') }}"></script>
 </body>
 
 </html>

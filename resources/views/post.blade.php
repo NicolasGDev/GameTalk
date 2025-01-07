@@ -73,11 +73,13 @@
                                 class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none 
                             dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                 placeholder="Escribe un comentario..."></textarea>
+                            <x-input-error :messages="$errors->get('body')" class="mt-2" />
                             <input type="hidden" name="post" value="{{ $post->id }}">
                         </div>
+
                         <button type="submit"
-                            class="inline-flex bg-main items-center py-2.5 px-4 text-md font-medium text-center text-black rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                            Publicar
+                            class="inline-flex bg-main hover:bg-main3 items-center py-2.5 px-4 text-md font-medium text-center text-black rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                            Comentar
                         </button>
                     </form>
                 @else
@@ -151,14 +153,18 @@
                                     onclick="toggleReplyForm({{ $comment->id }})">
                                     Responder
                                 </button>
-                                <form action="{{ route('comment.report', $comment->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit"
-                                        class="mt-2 text-sm text-red-500 report-button hover:underline">
-                                        Reportar
-                                    </button>
-                                </form>
+                                @auth
+                                    <form class="report-form" action="{{ route('comment.report', $comment->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" value="{{ $post->id }}" name="post">
+                                        <button type="submit"
+                                            class="mt-2 text-sm text-red-500 report-button hover:underline">
+                                            Reportar
+                                        </button>
+                                    </form>
+                                @endauth
                             </div>
 
                             <!-- Botón para responder -->
@@ -174,8 +180,9 @@
                                         placeholder="Escribe tu respuesta..."></textarea>
                                     <input type="hidden" name="parent" value="{{ $comment->id }}">
                                     <input type="hidden" name="post" value="{{ $post->id }}">
-                                    <button type="submit" class="mt-2 px-4 py-2 bg-main text-black rounded-lg">
-                                        Responder
+                                    <button type="submit"
+                                        class="mt-2 px-4 py-2 bg-main hover:bg-main3 font-semibold text-black rounded-lg">
+                                        Comentar
                                     </button>
                                 </form>
                             @endauth
@@ -198,15 +205,18 @@
                                                 </p>
                                             </div>
                                             <p class="text-gray-800 dark:text-gray-200">{{ $reply->body }}</p>
-                                            <form class="report-form" action="{{ route('comment.report', $reply->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit"
-                                                    class="mt-2 text-sm text-red-500 report-button hover:underline">
-                                                    Reportar
-                                                </button>
-                                            </form>
+                                            @auth
+                                                <form class="report-form" action="{{ route('comment.report', $reply->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" value="{{ $post->id }}" name="post">
+                                                    <button type="submit"
+                                                        class="mt-2 text-sm text-red-500 report-button hover:underline">
+                                                        Reportar
+                                                    </button>
+                                                </form>
+                                            @endauth
                                         </article>
                                     @endforeach
                                 </div>

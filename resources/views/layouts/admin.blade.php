@@ -38,6 +38,7 @@
         <div class="relative flex-1 p-6">
             <div class=" border border-gray-500 rounded-lg p-6">
                 @yield('content')
+
             </div>
         </div>
 

@@ -47,31 +47,35 @@
             <div
                 class="w-full max-lg:mx-auto flex flex-col sm:flex-row max-lg:items-center max-lg:justify-between gap-6 md:gap-12 lg:gap-24">
                 <div class="">
-                    <h6 class="text-lg font-medium text-white mb-7 max-lg:text-center">Pagedone</h6>
+                    <h6 class="text-lg font-medium text-white mb-7 max-lg:text-center">Pages</h6>
                     <ul class="flex flex-col max-lg:items-center gap-6 ">
                         <li><a href="javascript:;"
                                 class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Home</a>
                         </li>
                         <li><a href="javascript:;"
-                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">About</a>
+                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Noticias</a>
                         </li>
                         <li><a href="javascript:;"
-                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Pricing</a>
+                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Reseñas</a>
                         </li>
                         <li><a href="javascript:;"
-                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Pro
-                                Version</a></li>
+                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Guias
+                        </li>
+                        <li><a href="javascript:;"
+                                class="text-base font-normal max-lg:text-center text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Foros
+                        </li>
                     </ul>
                 </div>
                 <div class="">
                     <h6 class="text-lg font-medium text-white mb-7 max-lg:text-center">Legal</h6>
                     <ul class="flex flex-col gap-6 max-lg:items-center">
                         <li><a href="javascript:;"
-                                class="text-base font-normal text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Figma
-                                UI System</a></li>
+                                class="text-base font-normal text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">
+                                Terminos y condiciones</a></li>
                         <li><a href="javascript:;"
-                                class="text-base font-normal text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Icons
-                                Assets</a></li>
+                                class="text-base font-normal text-gray-400 whitespace-nowrap transition-all duration-300 hover:text-main">Politica
+                                de cockies
+                            </a></li>
 
                     </ul>
                 </div>

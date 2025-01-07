@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -19,8 +20,23 @@ class CommentController extends Controller
 
         return view('pages.comments.index', compact('comments'));
     }
+
     public function storeComment(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'body' => 'required|max:500',
+        ], [
+            'body.required' => 'El comentario no puede ser vacío.',
+            'body.max' => 'El comentario no puede tener más de 500 caracteres.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('comments');  // Redirige hacia la sección de comentarios en caso de error
+        }
+
         $comment = new Comment();
         $comment->body = $request->body;
         $comment->post_id = $request->post;
@@ -37,14 +53,15 @@ class CommentController extends Controller
     }
 
 
-    public function reportComment($id)
+    public function reportComment(Request $request, $id)
     {
         $reportedComment = Comment::findOrFail($id);
         $reportedComment->state = 3;
         $reportedComment->save();
 
-        return redirect()->back()
-            ->with('success', 'Comentario reportado correctamente.');
+        return redirect()->route('page.show',  $request->post)
+            ->withFragment('comments')  // Desplaza hacia los comentarios
+            ->with('success', 'Comentario guardado correctamente.');
     }
 
     public function destroy(Request $request, $id)

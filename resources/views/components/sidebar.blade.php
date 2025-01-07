@@ -1,4 +1,5 @@
-<div class="fixed left-0 top-0 w-64 h-full bg-gray-950 p-4 z-50 sidebar-menu transition-transform">
+<div
+    class="fixed left-0 top-0 w-64 sidebar  h-full hidden md:flex md:flex-col bg-gray-950 p-4 z-50 sidebar-menu transition-transform">
     <a href="{{ route('dashboard') }}" class="flex items-center pb-4 border-b border-b-gray-800">
 
         <img src="{{ asset('images/Logo2.png') }}" width="160px" alt="">
